@@ -6,7 +6,7 @@ module.exports = {
       keyframes: {
         popIn: {
           "0%": { transform: "scale(0.8)" },
-          "40%": { transform: "scale(1.1)" },
+          "40%": { transform: "scale(1.4)" },
           "100%": { transform: "scale(1)" },
         },
         drawLine: {
@@ -16,8 +16,8 @@ module.exports = {
         }
       },
       animation: {
-        popIn: "popIn 0.1s linear",
-        drawLine: "drawLine 1s forwards",
+        popIn: "popIn 0.2s linear",
+        drawLine: "drawLine 0.7s forwards",
       },
     },
   },
