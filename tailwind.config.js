@@ -9,9 +9,15 @@ module.exports = {
           "40%": { transform: "scale(1.1)" },
           "100%": { transform: "scale(1)" },
         },
+        drawLine: {
+          to: {
+            "stroke-dashoffset": 0
+          }
+        }
       },
       animation: {
         popIn: "popIn 0.1s linear",
+        drawLine: "drawLine 1s forwards",
       },
     },
   },

@@ -6,8 +6,6 @@ import Circle from "../node_modules/lucide-solid/dist/source/icons/circle";
 // @ts-ignore tree-shaking doesn't work properly when importing from "lucide-solid"
 import X from "../node_modules/lucide-solid/dist/source/icons/x";
 
-import "./index.css";
-
 type Player = "X" | "O";
 
 type Cell = " " | Player;
@@ -107,10 +105,13 @@ export function TicTacToe() {
           <div class="absolute h-full w-full">
             <svg height="300" width="300">
               <polyline
+                class="animate-drawLine"
                 classList={{
                   "stroke-blue-500": store.winner.player === "X",
                   "stroke-red-500": store.winner.player === "O",
                 }}
+                stroke-dasharray="100%"
+                stroke-dashoffset="100%"
                 points={store.winner.line
                   .map(([y, x]) => `${x * 100 + 50},${y * 100 + 50}`)
                   .join(" ")}
