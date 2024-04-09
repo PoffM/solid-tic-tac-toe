@@ -1,5 +1,5 @@
 import { Circle, X } from "lucide-solid";
-import { createEffect } from "solid-js";
+import { For, createEffect } from "solid-js";
 import { createMutable } from "solid-js/store";
 
 import "./index.css";
@@ -33,8 +33,6 @@ function initGame(): Store {
 
 const store = createMutable<Store>(initGame());
 
-createEffect(() => console.log(store.rows[0]));
-
 function makeMove(row: number, col: number) {
   if (store.rows[row][col] !== " ") {
     return;
@@ -66,25 +64,44 @@ function makeMove(row: number, col: number) {
   store.turn = store.turn === "X" ? "O" : "X";
 }
 
+function label(y: number, x: number) {
+  const p1 = ["top", "", "bottom"][y];
+  const p2 = ["left", "", "right"][x];
+  const text = [p1, p2].filter(Boolean).join(" ") || "middle";
+  return text;
+}
+
 export function TicTacToe() {
   return (
     <div class="fixed inset-0 bg-neutral-900 text-neutral-200 flex flex-col gap-2 justify-center items-center">
       <div class="w-[300px] h-[300px] border flex flex-col relative">
-        {store.rows.map((row, y) => (
-          <div class="flex">
-            {row.map((cell, x) => (
-              <button
-                class="w-[100px] h-[100px] border flex justify-center items-center"
-                onClick={() => makeMove(y, x)}
-              >
-                {cell !== " " && <Mark player={cell} />}
-              </button>
-            ))}
-          </div>
-        ))}
+        <For each={store.rows}>
+          {(row, y) => (
+            <div class="flex">
+              <For each={row}>
+                {(cell, x) => (
+                  <button
+                    class="w-[100px] h-[100px] border flex justify-center items-center"
+                    classList={{
+                      "hover:bg-neutral-800": cell === " " && !store.winner,
+                    }}
+                    aria-label={label(y(), x())}
+                    onClick={() => makeMove(y(), x())}
+                  >
+                    {cell !== " " && (
+                      <div class="animate-popIn">
+                        <Mark player={cell} />
+                      </div>
+                    )}
+                  </button>
+                )}
+              </For>
+            </div>
+          )}
+        </For>
         {store.winner && store.winner.player !== "Tie" && (
           <div class="absolute h-full w-full">
-            <svg height="300" width="300" >
+            <svg height="300" width="300">
               <polyline
                 classList={{
                   "stroke-blue-500": store.winner.player === "X",
@@ -101,26 +118,26 @@ export function TicTacToe() {
           </div>
         )}
       </div>
-      <div class="flex items-center gap-1">
+      <div aria-label="game state">
         {store.winner &&
           (store.winner?.player === "Tie" ? (
             "Tie!"
           ) : (
-            <>
+            <div class="flex items-center gap-1">
               <Mark player={store.winner.player} /> wins!
-            </>
+            </div>
           ))}
         {!store.winner && (
-          <>
+          <div class="flex items-center gap-1">
             <Mark player={store.turn} />
             's turn
-          </>
+          </div>
         )}
       </div>
       <div class="mt-4">
         {!store.winner && (
           <button
-            class="bg-teal-800 text-white px-4 py-2 rounded-md"
+            class="bg-teal-900 text-white px-4 py-2 rounded-md"
             onClick={() => Object.assign(store, initGame())}
           >
             Restart game
@@ -152,6 +169,7 @@ function Mark(props: MarkProps) {
         "text-red-500": props.player === "O",
       }}
     >
+      <span class="sr-only">{props.player}</span>
       {props.player === "X" ? <X size={50} /> : <Circle size={40} />}
     </span>
   );
