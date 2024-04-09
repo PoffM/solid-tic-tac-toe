@@ -11,5 +11,6 @@ test("plays tic-tac-toe", async () => {
   fireEvent.click(ui.getByLabelText("right"));
   fireEvent.click(ui.getByLabelText("bottom right"));
 
-  expect(ui.getByLabelText("game state").textContent).toBe("X wins!");
+  expect(ui.getByLabelText("game state").textContent)
+    .toBe("X wins!");
 });
