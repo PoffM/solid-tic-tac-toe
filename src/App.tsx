@@ -1,6 +1,10 @@
-import { Circle, X } from "lucide-solid";
-import { For, createEffect } from "solid-js";
+import { For } from "solid-js";
 import { createMutable } from "solid-js/store";
+
+// @ts-ignore tree-shaking doesn't work properly when importing from "lucide-solid"
+import Circle from "../node_modules/lucide-solid/dist/source/icons/circle";
+// @ts-ignore tree-shaking doesn't work properly when importing from "lucide-solid"
+import X from "../node_modules/lucide-solid/dist/source/icons/x";
 
 import "./index.css";
 
