@@ -1,10 +1,14 @@
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
+import tailwindcss from "@tailwindcss/vite";
 
 /// <reference types="vitest" />
 
 export default defineConfig({
-  plugins: [solidPlugin()],
+  plugins: [
+    solidPlugin(),
+    tailwindcss()
+  ],
   server: {
     port: 3000,
   },
@@ -13,5 +17,8 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-  }
+  },
+  resolve: {
+    conditions: ['development', 'browser'],
+  },
 });
